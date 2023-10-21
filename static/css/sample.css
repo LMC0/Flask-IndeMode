@@ -1,3 +1,188 @@
-h1{
-    color: blue;
+:root {
+    /* main colors */
+    --color-primary: #6b3d1f;
+    --color-primary-light: color-mod(var(--color-primary) tint(15%));
+    --color-primary-dark: color-mod(var(--color-primary) shade(15%));
+    --color-primary-bg: color-mod(var(--color-primary) alpha(20%));
+
+    --color-accent: #860000;
+    --color-accent-light: color-mod(var(--color-accent) tint(15%));
+    --color-accent-dark: color-mod(var(--color-accent) shade(10%));
+    --color-accent-bg: color-mod(var(--color-accent) alpha(20%));
+
+    /* shades - generated using chroma.js - 12 steps*/
+    --black: #1d1d21;
+    --gray-10: #2e2e31;
+    --gray-6: #7b7a7d;
+    --gray-4: #a5a5a6;
+    --gray-3: #bbbbbc;
+    --gray-2: #d1d0d2;
+    --gray-1: #e8e7e8;
+    --white: white;
+
+    /* background color*/
+    --color-background: #1d1d21;
+    --color-background-dark: #2e2e31;
+
+    /* feedback */
+    --color-success: #88c459;
+    --color-error: #f5414f;
+    --color-warning: #ffd137;
 }
+
+
+header {
+    background-color: rgb(51, 51, 51); /* Header color set*/
+}
+
+
+form {
+    padding: 10px; /* フォームの内側の余白を設定 */
+}
+
+/* カードに影を付ける */
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* X、Y、ぼかしの半径、色を設定 */
+}
+
+
+/* 画像部分の下にグラデーションを追加するスタイル */
+.carousel-item::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); /* グラデーションの定義（透明から黒） */
+    z-index: 1; /* 他の要素の上に表示 */
+}
+
+/* キャプションのスタイル */
+.carousel-caption {
+    z-index: 2; /* グラデーションの上に表示 */
+}
+
+
+
+.fadeUp {
+    animation-name: fadeUpAnime;/*アニメーションの定義名*/
+    animation-duration:1s;/*アニメーション変化時間 ※デフォルト*/
+    animation-fill-mode:forwards;/*アニメーションの開始と終了時の状態を指定*/
+    opacity:0;
+    }
+    
+    /*アニメーションの開始から終了までを指定する*/
+    @keyframes fadeUpAnime{
+        from {
+        opacity: 0;
+        transform: translateY(100px);
+        }
+    
+        to {
+        opacity: 1;
+        transform: translateY(0);
+        }
+    }
+    
+    /*==================================================
+    アニメーション設定
+    ===================================*/
+    
+    /* アニメーション１回分の時間の長さを指定するCSS*/
+    
+    .change-time05{
+        animation-duration: 0.5s;
+    }
+
+
+    
+
+/*==================================================
+    スライダーのためのcss
+    ===================================*/
+.slider {/*横幅94%で左右に余白を持たせて中央寄せ*/
+    width:94%;
+    margin:0 auto;
+}
+    
+.slider img {
+    width:60vw;/*スライダー内の画像を60vwにしてレスポンシブ化*/
+    height:auto;
+}
+    
+    .slider .slick-slide {
+    transform: scale(0.8);/*左右の画像のサイズを80%に*/
+    transition: all .5s;/*拡大や透過のアニメーションを0.5秒で行う*/
+    opacity: 0.5;/*透過50%*/
+    }
+    
+    .slider .slick-slide.slick-center{
+    transform: scale(1);/*中央の画像のサイズだけ等倍に*/
+    opacity: 1;/*透過なし*/
+    }
+    
+    
+    /*矢印の設定*/
+    
+    /*戻る、次へ矢印の位置*/
+    .slick-prev, 
+    .slick-next {
+        position: absolute;/*絶対配置にする*/
+        top: 42%;
+        cursor: pointer;/*マウスカーソルを指マークに*/
+        outline: none;/*クリックをしたら出てくる枠線を消す*/
+        border-top: 2px solid #666;/*矢印の色*/
+        border-right: 2px solid #666;/*矢印の色*/
+        height: 15px;
+        width: 15px;
+    }
+    
+    .slick-prev {/*戻る矢印の位置と形状*/
+        left: -1.5%;
+        transform: rotate(-135deg);
+    }
+    
+    .slick-next {/*次へ矢印の位置と形状*/
+        right: -1.5%;
+        transform: rotate(45deg);
+    }
+    
+    /*ドットナビゲーションの設定*/
+    
+    .slick-dots {
+        text-align:center;
+        margin:20px 0 0 0;
+    }
+    
+    .slick-dots li {
+        display:inline-block;
+        margin:0 5px;
+    }
+    
+    .slick-dots button {
+        color: transparent;
+        outline: none;
+        width:8px;/*ドットボタンのサイズ*/
+        height:8px;/*ドットボタンのサイズ*/
+        display:block;
+        border-radius:50%;
+        background:#ccc;/*ドットボタンの色*/
+    }
+    
+    .slick-dots .slick-active button{
+        background:#333;/*ドットボタンの現在地表示の色*/
+    }
+
+
+    
+/*icon hover/focus design */
+.nav-link:hover{
+    background-color: #ffffff67;
+    border-radius: 4px;
+}
+.nav-link:focus{
+    background-color: #ffffffcc;
+    border-radius: 4px;
+}
+

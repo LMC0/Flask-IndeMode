@@ -1,11 +1,86 @@
-{% extends "bootstrap/base.html" %}
+{% extends "base.html" %}
 {% block title %}TOPページ{% endblock %}
 
 {% block content %}
+
+<header>
+    <nav class="container-fluid d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <div class="container-fluid">
+            <img class="logo" src="/static/images/IndeMode_Logo.png" alt="logo" height="40">
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link active" aria-current="page" href="/" style="color: white;" id="home-link">
+                    <img class="home" src="/static/images/home_white.png" alt="home" height="24">
+                </a>
+                <a class="nav-link" style="color: white;" href="/mypage">
+                    <img class="user" src="/static/images/user_white.png" alt="user" height="24" id="user-link">
+                </a>
+                <a class="nav-link" style="color: white;" href="/logout">
+                    <img class="logout" src="/static/images/logout_white.png" alt="logout" height="24" id="logout-link">
+                </a>
+            </nav>
+        </div>
+    </nav>
+</header>
+
+<!-- TOP カルーセル-->
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+            aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+            aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
+            aria-label="Slide 4"></button>
+    </div>
+    <div class="carousel-inner"> <!--1st image-->
+        <div class="carousel-item active">
+            <a href="index.html"><img src="/static/images/ShareSalon.png" class="d-block w-100" alt="img"></a>
+            <div class="carousel-caption d-none d-md-block">
+                <h5>ShareSalon</h5>
+                <p>人気急上昇中のシェアリングサロン情報を確認してみよう</p>
+            </div>
+        </div>
+        <div class="carousel-item"><!--2nd image-->
+            <a href="contentPage.html#Baby"><img src="/static/images/Item.png" class="d-block w-100" alt="img"></a>
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Beauty Items</h5>
+                <p>新作のトリートメント情報をチェックしてみよう</p>
+            </div>
+        </div>
+        <div class="carousel-item"><!--2nd image-->
+            <a href="contentPage.html#Baby"><img src="/static/images/Color.png" class="d-block w-100" alt="img"></a>
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Color</h5>
+                <p>あの人気スタイリストYUKIのカラーリングテクニックを公開！</p>
+            </div>
+        </div>
+        <div class="carousel-item"><!--3rd image-->
+            <a href="contentPage.html#interests"><img src="/static/images/Sale.png" class="d-block w-100" alt="img"></a>
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Sales</h5>
+                <p>顧客単価を上げるマル秘テクニックの最新情報を確認しよう</p>
+            </div>
+        </div>
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!--カルーセルここまで-->
+
+
 <div class="container">
-    <h1>ブログアプリケーション</h1>
+<!---
     <a href="/create" role="button">新規作成画面</a>
-    <a href="/logout" role="button">ログアウト</a>
     {% for post in posts %}
     <article>
         <h2>{{ post.title }}</h2>
@@ -15,5 +90,6 @@
         <p>{{ post.body }}</p>
     </article>
     {% endfor %}
+-->
 </div>
 {% endblock %}
