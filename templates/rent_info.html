@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}TOPページ{% endblock %}
+
+{% block content %}
+
+<header>
+    <nav class="container-fluid d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <div class="container-fluid">
+            <img class="logo" src="/static/images/IndeMode_Logo.png" alt="logo" height="40">
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link" aria-current="page" href="/" style="color: white;" id="home-link">
+                    <img class="home" src="/static/images/home_white.png" alt="home" height="24">
+                </a>
+                <a class="nav-link" style="color: white;" href="/mypage">
+                    <img class="user" src="/static/images/user_white.png" alt="user" height="24" id="user-link">
+                </a>
+                <a class="nav-link" style="color: white;" href="/logout">
+                    <img class="logout" src="/static/images/logout_white.png" alt="logout" height="24" id="logout-link">
+                </a>
+            </nav>
+        </div>
+    </nav>
+</header>
+
+<div class="container-fluid">
+
+    
+    
+    <div class="parent-element" data-tena-id="{{ df_rent.id }}">
+        <ul class="nav nav-underline justify-content-center" style="padding: 16px;">
+            <li class="nav-item" style="background-color: black;  border-radius: 100px; text-align: center; margin-right: 40px;">
+                <a class="nav-link active" style= "padding: 8px 16px; font-weight: 700; color: white;" aria-current="page" href="#">BasicInfo</a>
+            </li>
+            <li class="nav-item" style="background-color: lightgray;  border-radius: 100px; text-align: center; margin-right: 40px;">
+                <a class="nav-link active" style="padding: 8px 16px; font-weight: 700; color: darkgray;" aria-current="page" href="#" id="geoinfo-link">GeoInfo</a>
+            </li>
+            <li class="nav-item" style="background-color:lightgray;  border-radius: 100px; text-align: center; margin-right: 20px;">
+                <a class="nav-link active" style= "padding: 8px 16px; font-weight: 700; color:darkgray;" aria-current="page" href="#" id="calc-link">Calc</a>
+            </li>
+        </ul>
+    </div>
+
+
+
+    <div class="container" style="border: 2px solid lightgray; border-radius: 50px;">
+        <div style="padding: 40px;">
+            <h3> No.{{df_rent.id }}: {{df_rent.tenantaddress }}</h3>
+
+            <div id="carouselExampleIndicators" class="carousel slide mx-auto" style="width: 70%; padding:  20px;" >
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="{{df_rent.imgurl}}" class="d-block mx-auto" alt="...">
+                    </div>
+                </div>
+            </div>
+            
+            <h4></br></br>住所：　{{df_rent.tenantaddress }}</h4>
+            <h4> 賃料：　{{df_rent.tenantprice }}万円/月</h4>
+            <h4> 広さ：　{{df_rent.floor }}㎡</br></br></h4>
+            <table class="table table-bordered" style="width: autopx; text-align: center; border-color: gray;">
+                <tr style="width: auto; padding:20px; background-color: rgb(37, 37, 37); color: white;">
+                    <th>敷金</th>
+                    <th>礼金</th>
+                    <th>保証金</th>
+                    <th>解約金</th>
+                </tr>
+                <tr style="width: auto; padding:20px; background-color: whitesmoke ">
+                    {% if df_rent.shikikin == "無" %}
+                        <td>{{df_rent.shikikin }}</td>
+                    {% else %}
+                        <td>{{df_rent.shikikin }}カ月</td>
+                    {% endif %}
+
+                    {% if df_rent.reikin  == "無" %}
+                        <td>{{df_rent.reikin  }}</td>
+                    {% else %}
+                        <td>{{df_rent.reikin  }}カ月</td>
+                    {% endif %}
+
+                    {% if df_rent.hoshokin  == "無" %}
+                        <td>{{df_rent.hoshokin  }}</td>
+                    {% else %}
+                        <td>{{df_rent.hoshokin  }}カ月</td>
+                    {% endif %}
+
+                    {% if df_rent.kaiyakukin  == "無" %}
+                        <td>{{df_rent.kaiyakukin  }}</td>
+                    {% else %}
+                        <td>{{df_rent.kaiyakukin  }}カ月</td>
+                    {% endif %}
+
+                </tr>
+            </table>
+            <h4></br>詳細URL：　{{df_rent.detailurl }}</h4>
+        </div>
+
+    </div>
+    
+
+</div>
+
+
+
+{% endblock %}

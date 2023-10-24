@@ -23,7 +23,7 @@
 
 <div class="container">
 
-    <p class="bodyText"><br>検索対象: {{ df_area["stationname"][0] }}</p>
+    <p class="bodyText"><br>検索対象: {{ df_area.stationname }}</p>
     <p>有楽町の乗降者数など周辺インフォ入れる</p>
 
     <div class="row justify-content-center">
@@ -31,26 +31,30 @@
     </div>
     
 
-    <p class="captionText"><br>検索結果: {{ df_rent.shape[0] }}件</p>
-
+    <p class="captionText"><br>検索結果: {{  df_rent|length }}件</p>
     <div class="row justify-content-center">
-        {% for index, row in df_rent.iterrows() %}
-            <div class="card border-black" style="max-width: 600px; margin: 10px;" data-card-id="{{ row['id'] }}">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="..." class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Tenant Name {{ row["tena_name"] }}</h5>
-                            <p class="card-text">Rent {{ row["tena_rent"] }} 円/month / Area {{ row["tena_area"] }}坪</p>
-                            <p class="card-text"><small class="text-body-secondary">Address {{ row["tena_adress"] }}</small></p>
+        {% for tenant in df_rent %}
+            <div class="col-md-6" style="margin-bottom: 20px;">
+                <div class="card border-black" style="max-width: 700px; margin: 0 auto;" data-card-id="{{ tenant.id }}">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <div style=" height: 200px; overflow: hidden;">
+                                <img src="{{ tenant.imgurl }}" class="img-fluid rounded-start" style="width: 100%; height: 100%; object-fit: cover;" alt="...">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body" style="text-align: left;">                                
+                                <h5 class="card-title"></br>Tenant ID:  {{ tenant.id }}</h5>
+                                <p class="card-text">Address: {{ tenant.tenantaddress }}</p>
+                                <p class="card-text">Price: {{ tenant.tenantprice }} 万円（/月）</tr> floor: {{ tenant.floor }} m2</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         {% endfor %}
-    </div>
+    </div> 
+    
 </div>
 
 {% endblock %}

@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // フォームを作成してカード情報を送信
         var form = document.createElement("form");
         form.method = "POST";
-        form.action = "/GeoInfo";
+        form.action = "/geo_info";
     
         var input = document.createElement("input");
         input.type = "hidden";

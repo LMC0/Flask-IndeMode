@@ -1,0 +1,356 @@
+{% extends "base.html" %}
+{% block title %}TOPページ{% endblock %}
+
+{% block content %}
+
+<header>
+    <nav class="container-fluid d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <div class="container-fluid">
+            <img class="logo" src="/static/images/IndeMode_Logo.png" alt="logo" height="40">
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link" aria-current="page" href="/" style="color: white;" id="home-link">
+                    <img class="home" src="/static/images/home_white.png" alt="home" height="24">
+                </a>
+                <a class="nav-link" style="color: white;" href="/mypage">
+                    <img class="user" src="/static/images/user_white.png" alt="user" height="24" id="user-link">
+                </a>
+                <a class="nav-link" style="color: white;" href="/logout">
+                    <img class="logout" src="/static/images/logout_white.png" alt="logout" height="24" id="logout-link">
+                </a>
+            </nav>
+        </div>
+    </nav>
+</header>
+
+<div class="container-fluid">
+
+    <div class="parent-element" data-tena-id="{{ df_rent.id }}">
+        <ul class="nav nav-underline justify-content-center" style="padding: 16px;">
+            <li class="nav-item" style="background-color: lightgray;  border-radius: 100px; text-align: center; margin-right: 40px;">
+                <a class="nav-link active" style= "padding: 8px 16px; font-weight: 700; color:darkgray;" aria-current="page" href="#" id="basicinfo-link">BasicInfo</a>
+            </li>
+            <li class="nav-item" style="background-color: lightgray;  border-radius: 100px; text-align: center; margin-right: 40px;">
+                <a class="nav-link active" style= "padding: 8px 16px; font-weight: 700; color: darkgray;" aria-current="page" href="#" id="geoinfo-link">GeoInfo</a>
+            </li>
+            <li class="nav-item" style="background-color:black;  border-radius: 100px; text-align: center; margin-right: 20px;">
+                <a class="nav-link active" style= "padding: 8px 16px; font-weight: 700; color:white;" aria-current="page" href="#" >Calc</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container" style="border: 2px solid lightgray; border-radius: 50px;">
+        <div style="padding: 60px;">
+
+            <h3>Setting<br></h3>
+            <!---------------------------  form-------------------------------------->
+            <form class="row g-3 needs-validation" novalidate method="POST" action="/calc">
+                <!-- data-card-id をフォームに追加 -->
+                <input type="hidden" name="card_id" value="{{ df_rent.id }}">
+                <!----------------初期投資可能額--------------->
+                <div class="row">
+                    <div class="col-3" style="margin-top: 5px;">
+                        <label for="initial_investment" class="form-label">初期投資額</label>
+                    </div>
+                    <div class="col-auto">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="initial_investment" id="initial_investment" placeholder="{{ df_calc['initial_investment'] }}" onblur="validateInput(this)" aria-describedby="basic-addon2">
+                            <span class="input-group-text" id="basic-addon2">万円</span>
+                            <div class="error-message" style="display: none;">整数を入力してください。</div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="row g-3 align-items-center">
+                    <h3>売上予測<br></h3>
+
+                    <!---------------------顧客接客可能人数の計算--------------------->
+                    <div class="col-auto" style="margin-top: 16px;">
+                        <label for="servicenum" class="form-label">■1日の接客可能人数（営業時間×60分÷接客平均時間）</label>
+                    </div>
+                    <div class="row" style="padding-top: 8px;">
+    
+                        <div class="col-2">
+                            <div class="input-group  ">
+                                <input type="integer" name="bussiness_hour" id="bussiness_hour" class="form-control" placeholder="{{ df_calc['bussiness_hour'] }}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">時間</span>
+                            </div>
+                        </div>
+    
+                        <div class="col-auto"><p>×</p></div>
+    
+                        <div class="col-2">
+                            <div class="input-group">
+                                <input type="integer" name="bussiness_minute" id="bussiness_minute" class="form-control" placeholder="{{ df_calc['bussiness_minutes']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">分</span>
+                            </div>
+                        </div>
+    
+                        <div class="col-auto"><p>÷</p></div>
+    
+                        <div class="col-2">
+                            <div class="input-group">
+                                <input type="integer" name="ave_time" id="ave_time" class="form-control" placeholder="{{ df_calc['ave_time']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">分</span>
+                            </div>
+                        </div>
+        
+                        <div class="col-auto"><p>=</p></div>
+        
+                        <div class="col-3">
+                            <div class="input-group">
+                                <input type="integer" name="max_turnover" id="max_turnover" class="form-control" placeholder="{{ df_calc['max_turnover']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">人</span>
+                            </div>
+                        </div>
+    
+                    </div>
+    
+    
+                    <!---------------------店舗接客人数の計算--------------------->
+                    <div class="col-auto" style="margin-top: 16px;">
+                        <label for="servicenum" class="form-label">■店舗接客人数（席数×接客可能人数×座席稼働率）</label>
+                    </div>
+                    <div class="row" style="padding-top: 8px;">
+    
+                        <div class="col-2">
+                            <div class="input-group  ">
+                                <input type="integer" name="chair" id="chair" class="form-control" placeholder="{{ df_calc['chair']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">席</span>
+                            </div>
+                        </div>
+    
+                        <div class="col-auto"><p>×</p></div>
+    
+                        <div class="col-2">
+                            <div class="input-group">
+                                <input type="integer" name="turover" id="turover" class="form-control" placeholder="{{ df_calc['max_turnover']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">人</span>
+                            </div>
+                        </div>
+    
+                        <div class="col-auto"><p>×</p></div>
+    
+                        <div class="col-2">
+                            <div class="input-group">
+                                <input type="integer" name="booking_rate" id="booking_rate" class="form-control" placeholder="{{ df_calc['booking_rate']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">%</span>
+                            </div>
+                        </div>
+        
+                        <div class="col-auto"><p>=</p></div>
+        
+                        <div class="col-3">
+                            <div class="input-group">
+                                <input type="integer" name="servicenum" id="servicenum" class="form-control" placeholder="{{ df_calc['servicenum']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">人</span>
+                            </div>
+                        </div>
+    
+                    </div>
+    
+                    <!---------------------店舗の月売上の計算--------------------->
+                    <div class="col-auto" style="margin-top: 16px;">
+                        <label for="servicenum" class="form-label">■店舗の月売上（1日の店舗接客人数×平均客単価×月の営業日数）</label>
+                    </div>
+                    <div class="row" style="padding-top: 8px;">
+    
+                        <div class="col-2">
+                            <div class="input-group  ">
+                                <input type="integer" name="customer_num" id="customer_num" class="form-control" placeholder="{{ df_calc['servicenum']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">人</span>
+                            </div>
+                        </div>
+    
+                        <div class="col-auto"><p>×</p></div>
+    
+                        <div class="col-2">
+                            <div class="input-group">
+                                <input type="integer" name="customer_price" id="customer_price" class="form-control" placeholder="{{ df_calc['customer_price']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">円</span>
+                            </div>
+                        </div>
+    
+                        <div class="col-auto"><p>×</p></div>
+    
+                        <div class="col-2">
+                            <div class="input-group">
+                                <input type="integer" name="days" id="days" class="form-control" placeholder="{{ df_calc['days']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">日</span>
+                            </div>
+                        </div>
+        
+                        <div class="col-auto"><p>=</p></div>
+        
+                        <div class="col-3">
+                            <div class="input-group">
+                                <input type="integer" name="benefit" id="benefit" class="form-control" placeholder="{{ df_calc['benefit']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">円</span>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+    
+
+                <!------------------------コスト予測----------------------------->
+                <div class="row g-3 align-items-center">
+                    <h3>支出予測<br></h3>
+
+                    <!---------------------初期費用の計算--------------------->
+                    <div class="col-auto" style="margin-top: 16px;">
+                        <label for="servicenum" class="form-label">■初期費用（入居費＋引越費/設備費）</label>
+                    </div>
+                    <div class="row" style="padding-top: 8px;">
+    
+                        <div class="col-2">
+                            <div class="input-group  ">
+                                <input type="integer" name="movingin_cost" id="movingin_cost" class="form-control" placeholder="{{ df_calc['movingin_cost']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">円</span>
+                            </div>
+                        </div>
+    
+                        <div class="col-auto"><p>+</p></div>
+    
+                        <div class="col-2">
+                            <div class="input-group">
+                                <input type="integer" name="moving_cost" id="moving_cost" class="form-control" placeholder="{{ df_calc['moving_cost']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">円</span>
+                            </div>
+                        </div>
+
+                        <div class="col-auto"><p>=</p></div>
+        
+                        <div class="col-3">
+                            <div class="input-group">
+                                <input type="integer" name="initial_cost" id="initial_cost" class="form-control" placeholder="{{ df_calc['initial_cost']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">円</span>
+                            </div>
+                        </div>
+    
+                    </div>
+
+                    <!---------------------固定費の計算--------------------->
+                    <div class="col-auto" style="margin-top: 16px;">
+                        <label for="servicenum" class="form-label">■固定費（家賃＋人件費＋光熱費）</label>
+                    </div>
+                    <div class="col-auto">
+                        <span id="assistantNum" class="form-text">
+                        1人当たりの雇用費用は給料20万円に保険・税等を加算して月35万で計算します。
+                        </span>
+                    </div>
+                    <div class="row" style="padding-top: 8px;">
+    
+                        <div class="col-2">
+                            <div class="input-group  ">
+                                <input type="integer" name="rent_cost" id="rent_cost" class="form-control" placeholder="{{ df_calc['rent_cost']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">円</span>
+                            </div>
+                        </div>
+    
+                        <div class="col-auto"><p>+</p></div>
+    
+                        <div class="col-2">
+                            <div class="input-group">
+                                <input type="integer" name="hire_cost" id="hire_cost" class="form-control" placeholder="{{ df_calc['hire_cost']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">人</span>
+                            </div>
+                        </div>
+    
+                        <div class="col-auto"><p>+</p></div>
+    
+                        <div class="col-2">
+                            <div class="input-group">
+                                <input type="integer" name="utility_cost" id="utility_cost" class="form-control" placeholder="{{ df_calc['utility_cost']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">円</span>
+                            </div>
+                        </div>
+        
+                        <div class="col-auto"><p>=</p></div>
+        
+                        <div class="col-3">
+                            <div class="input-group">
+                                <input type="integer" name="fixed_cost" id="fixed_cost" class="form-control" placeholder="{{ df_calc['fixed_cost']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">円</span>
+                            </div>
+                        </div>
+    
+                    </div>
+    
+                    <!---------------------変動費の計算--------------------->
+                    <div class="col-auto" style="margin-top: 16px;">
+                        <label for="servicenum" class="form-label">■変動費（売上に対する材料原価＋広告費）</label>
+                    </div>
+                    <div class="row" style="padding-top: 8px;">
+    
+                        <div class="col-2">
+                            <div class="input-group  ">
+                                <input type="integer" name="material_cost" id="material_cost" class="form-control" placeholder="{{ df_calc['material_cost']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">％</span>
+                            </div>
+                        </div>
+    
+                        <div class="col-auto"><p>+</p></div>
+    
+                        <div class="col-2">
+                            <div class="input-group">
+                                <input type="integer" name="ad_cost" id="ad_cost" class="form-control" placeholder="{{ df_calc['ad_cost']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">円</span>
+                            </div>
+                        </div>
+        
+                        <div class="col-auto"><p>=</p></div>
+        
+                        <div class="col-3">
+                            <div class="input-group">
+                                <input type="integer" name="variable_cost" id="variable_cost" class="form-control" placeholder="{{ df_calc['variable_cost']}}" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2">円</span>
+                            </div>
+                        </div>
+    
+                    </div>
+    
+                <!------------------calc button--------------------->
+                <div class="col-12" style="padding-top: 24px; padding-bottom: 24px;">
+                    <button class="btn"  id="reculc" type="submit" style="background-color: black; color: white; border-radius: 100px; ">再計算</button>
+                </div>
+
+            </form>
+
+            
+
+
+            <!--------------------    Display      ---------------------------->
+
+            <div class="text-center" style="padding: 20px; background-color:lightgray; border-radius: 50px;">
+
+                {% if(df_calc['initial_check']) == "Clear" %}
+                    <p>初期投資は十分のため、融資なしで事業を始められます。</p>
+                {% else %}
+                    <p>初期費用が{{ df_calc['initial_check'] }}円足りません。。
+                    <br>{{ df_calc['initial_check'] }}円の融資を受ける必要があります。</p>
+                {% endif %}
+                
+
+                {% if df_calc['final_benefit'] > 0 %}
+                <p>毎月の収支予測:<span style="font-size: 30px; font-weight: 700;">
+                    {{ df_calc['final_benefit'] }}円
+                <img class="" src="/static/images/arrow_blue.png" alt="arrow" height="30"></span></p>
+                {% else %}
+                <p style="font-weight: 500;">毎月の収支予測:<span style="font-size: 40px; font-weight: 700; color: red;"> 
+                    {{ df_calc['final_benefit'] }}円
+                <img class="" src="/static/images/arrow_red.png" alt="arrow" height="30"></span></p>
+                {% endif %}
+                
+            </div>
+
+        </div>
+        
+    </div>
+    
+
+</div>
+
+
+
+{% endblock %}
