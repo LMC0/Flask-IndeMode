@@ -49,11 +49,19 @@
             </div>
 
             
-            <p> この周辺にあるサロンの数はXX店舗です</p>
-            <p>この周辺のサロンの平均カット額はXXX円です。</p>
-            <p>この周辺の集客規模はXXXです</p>
-            <p>全体的には集客がし易そうですが、競合店が多いので他店との差別化が必要そうです</p>
-
+            <h5> この周辺にあるサロンの数は{{ salon_info["salon_num"] }}店舗です</h5>
+            <h5>この周辺のサロンの平均カット額は{{ salon_info["salon_cutprice"] }}円です。</h5>
+            <h5>この最寄りの駅は、{{ df_rent.tenantstationname }}駅で乗降者数が{{salon_info["passengernum"] }}人程度の都内で{{ salon_info["passengerrank"] }}番目に乗降者数が多い駅です。</h5>
+            {% if salon_info["salon_num"] > 10 and salon_info["passengerrank"] > 50 %}
+                <h5>全体的には集客がし易そうですが、競合店が多いので他店との差別化が必要そうです</h5>
+            {% elif salon_info["salon_num"] > 10 and salon_info["passengerrank"] <= 50 %}
+                <h5>全体的には集客性がないわりに、競合店が多いので経営には不向きな可能性が高いです</h5>
+            {% elif salon_info["salon_num"] <= 10 and salon_info["passengerrank"] > 50 %}
+                <h5>全体的に集客は高くないですが、競合店が少ないため地域での集客ができる場合は</br>出店を行っても軌道に乗る可能性があります</h5>
+            {% elif salon_info["salon_num"] <= 10 and salon_info["passengerrank"] <= 50 %}
+                <h5>全体的には集客が高く、競合店が少ないため新店舗の出店に向いている可能性が高いです！</h5>
+            {% endif %}
+        
         </div>
 
     </div>

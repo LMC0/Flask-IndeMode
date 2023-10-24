@@ -60,6 +60,29 @@ class Fav(UserMixin, db.Model):
     userid = db.Column(db.Integer, unique=True)
     tenantid = db.Column(db.Integer)
 
+class Salon(UserMixin, db.Model):
+    salonname = db.Column(db.String(30), primary_key=True)
+    salonstationname = db.Column(db.String(30), unique=True)
+    cutprice = db.Column(db.Integer)
+
+class Passenger(UserMixin, db.Model):
+    rank = db.Column(db.Integer, primary_key=True)
+    stationname = db.Column(db.String(30), unique=True)
+    passenger = db.Column(db.Integer)
+
+
+class Geoprice(UserMixin, db.Model):
+    rank = db.Column(db.Integer, primary_key=True)
+    area = db.Column(db.String(30), unique=True)
+    ave_tsubo = db.Column(db.Integer)
+    max_tsubo = db.Column(db.Integer)
+    min_tsubo = db.Column(db.Integer)
+    ave_m2 = db.Column(db.Integer)
+    max_m2 = db.Column(db.Integer)
+    min_m2 = db.Column(db.Integer)
+
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -253,6 +276,37 @@ def geo_info():
     print(station_name)
 
     df_area = Station.query.filter_by(stationname=station_name).first()
+    stationaddress = df_area.stationaddress
+    stationaddress = stationaddress.replace("東京都","").split("区")[0]
+
+    passenger = Passenger.query.filter_by(stationname=station_name).first()
+    print('passenger: ' + str(passenger.passenger))
+
+    print('station_address' + stationaddress)
+    areaprice = Geoprice.query.filter(Geoprice.area.ilike(f"%{stationaddress}%")).first()
+    print('areaaprice: ' + areaprice.area)
+
+    area_average_rent = areaprice.ave_m2
+    print(area_average_rent)
+
+    filtered_salons = Salon.query.filter(Salon.salonstationname.ilike(f"%{df_area.stationname}%")).all()
+    
+    sum =0
+    for salon in filtered_salons:
+        sum += int(salon.cutprice.replace(",",""))
+    
+    salonave_price = sum / len(filtered_salons)
+    print(filtered_salons)
+
+    salon_info = {
+        "salon_num" : len(filtered_salons),
+        "salon_cutprice" :  salonave_price,
+        "passengerrank" : passenger.rank,
+        "passengernum":passenger.passenger
+    }
+
+    print("salon_info")
+    print(salon_info)
 
     #Map情報の取得
     station_name = station_name
@@ -277,7 +331,7 @@ def geo_info():
     # ここでカード情報を扱う処理を行う
 
     # レンダリングするHTMLを指定して表示
-    return render_template('geo_info.html', df_rent=df_rent,map_html=map._repr_html_())  # GeoInfoページのHTMLテンプレート名を指定
+    return render_template('geo_info.html', df_rent=df_rent,salon_info=salon_info,map_html=map._repr_html_())  # GeoInfoページのHTMLテンプレート名を指定
 
 
 
