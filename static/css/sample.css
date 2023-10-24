@@ -186,3 +186,21 @@ form {
     border-radius: 4px;
 }
 
+
+/* input box design */
+.form-control {
+    border-color: #2e2e31;
+    background-color: #ccc; /* グレーの背景色に変更 */
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 影を追加 */
+}
+
+.input-group-text {
+    background-color: #2e2e31;
+    color: #ccc;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 影を追加 */
+}
+
+.input-group {
+    background-color: #ccc; /* グレーの背景色に変更 */
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 影を追加 */
+}

@@ -400,24 +400,38 @@ def calc():
     
     movingin_cost = request.form.get(' movingin_cost')
     if movingin_cost is None or movingin_cost.strip() == '':
-        movingin_cost = 6
+        sum = 0
+        if df_rent.shikikin.isdigit():
+            sum += int(df_rent.shikikin)
+        if df_rent.reikin.isdigit():
+            sum += int(df_rent.reikin)
+        if df_rent.hoshokin.isdigit():
+            sum += int(df_rent.hoshokin)
+        movingin_cost = sum* (int(df_rent.tenantprice)*10000)
         print("デフォルト値を設定しましたin")
     else:
-        movingin_cost = int(request.form.get(' movingin_cost'))
+        sum = 0
+        if df_rent.shikikin.isdigit():
+            sum += int(df_rent.shikikin)
+        if df_rent.reikin.isdigit():
+            sum += int(df_rent.reikin)
+        if df_rent.hoshokin.isdigit():
+            sum += int(df_rent.hoshokin)
+        movingin_cost = sum* (int(df_rent.tenantprice)*10000)
     
     moving_cost = request.form.get('moving_cost')
     if moving_cost is None or moving_cost.strip() == '':
-        moving_cost = 500000
+        moving_cost = 300000
         print("デフォルト値を設定しましたmove")
     else:
         moving_cost = int(request.form.get('moving_cost'))
     
     rent_cost = request.form.get('rent_cost')
     if rent_cost is None or rent_cost.strip() == '':
-        rent_cost = int(df_rent.tenantprice)
+        rent_cost = int(df_rent.tenantprice)*10000
         print("デフォルト値を設定しましたrent")
     else:
-        rent_cost = int(df_rent.tenantprice)
+        rent_cost = int(df_rent.tenantprice)*10000
     
     hire_cost = request.form.get('hire_cost')
     if hire_cost is None or hire_cost.strip() == '':
@@ -435,7 +449,7 @@ def calc():
     
     material_cost = request.form.get('material_cost')
     if material_cost is None or material_cost.strip() == '':
-        material_cost = .2
+        material_cost = 10
         print("デフォルト値を設定しましたmeter")
     else:
         material_cost = float(request.form.get('material_cost'))
