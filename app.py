@@ -10,6 +10,9 @@ import os
 
 from datetime import datetime
 import pytz
+import folium
+from folium.plugins import HeatMap
+import pandas as pd
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
@@ -148,3 +151,64 @@ def mypage():
     post = Post.query.get(id)
 
     return render_template('mypage.html')
+
+
+
+@app.route('/result', methods=['GET', 'POST'])
+def result():
+
+    # もしPOSTメソッドならresult.htmlに値dfと一緒に飛ばす
+    if request.method == 'POST':
+
+        # HTMLでセレクトした駅情報を取得
+        select_station = request.form.get('selected_option')
+        
+
+        if select_station is not None:
+            # Tena_StationIdがStation_Numと一致するテナントデータを取得し、DataFrameに読み込む
+            filtered_tenants = Tenant.query.filter(Tenant.tenantstationname.ilike(f"%{select_station}%")).all()
+            
+            # select_station に格納された駅名をもとにクエリを実行
+            station_data = Station.query.filter_by(stationname=select_station).first()
+
+            #Map情報の取得
+            station_name = select_station
+            station_lat = station_data.stationlat
+            station_lon = station_data.stationlon
+
+            print(station_lat)
+            print(station_lon)
+            print(filtered_tenants)
+
+
+            map = folium.Map(location=[station_lat, station_lon],zoom_start = 15,tiles='OpenStreetMap') 
+
+            #MapへのCircle表示
+            en = folium.Circle(
+            location=[station_lat, station_lon], # 中心
+            radius=100, # 半径100m
+            color='#ff0000', # 枠の色
+            fill_color='#0000ff' # 塗りつぶしの色
+            )
+            en.add_to(map)
+
+            marker = folium.Marker([station_lat, station_lon], popup=station_name)
+            marker.add_to(map)
+
+            df_area = pd.DataFrame(station_data)
+            df_rent = pd.DataFrame(filtered_tenants)
+
+            if not filtered_tenants:
+                # 結果をHTMLテンプレートに渡す
+                return render_template('result.html',df_area=df_area, df_rent=filtered_tenants, map_html=map._repr_html_())
+            else:
+                return 'No tenant data found for the selected station.'+ station_name
+        else:
+            return f'StationNum for {station_name} not found'
+    
+    # POSTメソッドカードセレクトとして飛ばす
+    else:
+        return render_template("index.html")
+
+
+

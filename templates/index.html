@@ -81,7 +81,7 @@
 
 <!--メインエリア-->
 
-<div class="container-fluid">
+<div class="container">
 
     <!-- 検索ボックスを表示-->
     <div class="row justify-content-center">
@@ -91,7 +91,7 @@
                 <select class="form-select" name="selected_option" aria-label="Example select with button addon" id="selectOption">
                     <option selected>駅検索...</option>
                     {% for station in stations %}
-                        <option value="{{ station.stationid }}">{{ station.stationname }}</option>
+                        <option value="{{ station.stationname }}">{{ station.stationname }}</option>
                     {% endfor %}
                 </select>
                 <button class="btn btn-outline-secondary" type="submit" id="submitButton">Search</button> <!-- フォームを送信するボタン -->
@@ -105,24 +105,30 @@
     <p class="captionText"><br>おススメテナント<br></p>
     <div class="row change-time05 fadeUp justify-content-center">
         {% for tenant in tenants %}
-            <div class="card border-black" style="max-width: 600px; margin-bottom: 20px;" data-card-id="{{ tenant.id }}">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <div style="height: 200px; overflow: hidden;">
-                            <img src="{{ tenant.imgurl }}" class="img-fluid rounded-start" style="width: 100%; height: 100%; object-fit: cover;" alt="...">
+            <div class="col-md-6" style="margin-bottom: 20px;">
+                <div class="card border-black" style="max-width: 700px; margin: 0 auto;" data-card-id="{{ tenant.id }}">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <div style=" height: 200px; overflow: hidden;">
+                                <img src="{{ tenant.imgurl }}" class="img-fluid rounded-start" style="width: 100%; height: 100%; object-fit: cover;" alt="...">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body" style="text-align: left;">                                
-                            <h5 class="card-title">Tenant Name {{ tenant.tenantname }}</h5>
-                            <p class="card-text">Tenant Address {{ tenant.tenantaddress }}</p>
-                            <p class="card-text"><small class="text-body-secondary">tenantstation {{ tenant.tenantstationid }}</small></p>
+                        <div class="col-md-8">
+                            <div class="card-body" style="text-align: left;">                                
+                                <h5 class="card-title"></br>Tenant ID:  {{ tenant.id }}</h5>
+                                <p class="card-text">Address: {{ tenant.tenantaddress }}</p>
+                                <p class="card-text">Price: {{ tenant.tenantprice }} 万円（/月）</tr> floor: {{ tenant.floor }} m2</p>
+                            </div>
+                                
+
+                                
                         </div>
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
+    
     
     
 </div>

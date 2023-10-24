@@ -58,6 +58,17 @@ form {
     z-index: 1; /* 他の要素の上に表示 */
 }
 
+.cardimg::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); /* グラデーションの定義（透明から黒） */
+    z-index: 1; /* 他の要素の上に表示 */
+}
+
 /* キャプションのスタイル */
 .carousel-caption {
     z-index: 2; /* グラデーションの上に表示 */
