@@ -31,6 +31,31 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(30), unique=True)
     password = db.Column(db.String(12))
 
+class Station(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    stationname = db.Column(db.String(30), unique=True)
+    stationaddress = db.Column(db.String(12))
+    stationlon = db.Column(db.String(12))
+    stationlat = db.Column(db.String(12))
+
+class Tenant(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    tenantaddress= db.Column(db.String(30), unique=True)
+    tenantprice = db.Column(db.Integer)
+    floor = db.Column(db.String(30))
+    tenantstationname = db.Column(db.String(30))
+    detailurl = db.Column(db.String(30))
+    imgurl = db.Column(db.String(30))
+    shikikin = db.Column(db.Integer)
+    reikin = db.Column(db.Integer)
+    hoshokin = db.Column(db.Integer)
+    kaiyakukin = db.Column(db.Integer)
+
+class Fav(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    userid = db.Column(db.Integer, unique=True)
+    tenantid = db.Column(db.Integer)
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -40,7 +65,9 @@ def load_user(user_id):
 def index():
     if request.method == 'GET':
         posts = Post.query.all()
-        return render_template('index.html', posts=posts)
+        tenants = Tenant.query.all()
+        stations = Station.query.all()
+        return render_template('index.html', posts=posts, tenants=tenants, stations=stations)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():

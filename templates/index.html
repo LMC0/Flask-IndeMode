@@ -76,7 +76,56 @@
 </div>
 
 <!--カルーセルここまで-->
+<!--カルーセル下スペース-->
+<div style= "margin-bottom:100px;"></div>
 
+<!--メインエリア-->
+
+<div class="container-fluid">
+
+    <!-- 検索ボックスを表示-->
+    <div class="row justify-content-center">
+        <!-- 路線検索-->
+        <form method="POST" action="/result" class="col-md-4" onsubmit="return validateForm();"> <!-- POSTリクエストを送信するフォーム -->
+            <div class="input-group ">
+                <select class="form-select" name="selected_option" aria-label="Example select with button addon" id="selectOption">
+                    <option selected>駅検索...</option>
+                    {% for station in stations %}
+                        <option value="{{ station.stationid }}">{{ station.stationname }}</option>
+                    {% endfor %}
+                </select>
+                <button class="btn btn-outline-secondary" type="submit" id="submitButton">Search</button> <!-- フォームを送信するボタン -->
+            </div>
+        </form>
+        
+    </div>
+
+    <!--おススメテナント表示-->
+    
+    <p class="captionText"><br>おススメテナント<br></p>
+    <div class="row change-time05 fadeUp justify-content-center">
+        {% for tenant in tenants %}
+            <div class="card border-black" style="max-width: 600px; margin-bottom: 20px;" data-card-id="{{ tenant.id }}">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <div style="height: 200px; overflow: hidden;">
+                            <img src="{{ tenant.imgurl }}" class="img-fluid rounded-start" style="width: 100%; height: 100%; object-fit: cover;" alt="...">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body" style="text-align: left;">                                
+                            <h5 class="card-title">Tenant Name {{ tenant.tenantname }}</h5>
+                            <p class="card-text">Tenant Address {{ tenant.tenantaddress }}</p>
+                            <p class="card-text"><small class="text-body-secondary">tenantstation {{ tenant.tenantstationid }}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    
+</div>
 
 <div class="container">
 <!---
