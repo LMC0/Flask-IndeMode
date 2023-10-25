@@ -3,15 +3,26 @@
 
 {% block content %}
 <div class="container">
-    <h1>ログイン画面</h1>
-    <form method="POST">
-        <label for="" class="form-label">ユーザー名</label>
-        <input type="text" name="username" class="form-control">
-        <label for="" class="form-label">パスワード</label>
-        <input type="password" name="password" class="form-control" >
-        <input type="submit" value="ログイン" class="btn btn-primary">
-    </form>
 
-    <a class="nav-link" href="/signup">新規登録</a>
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="card mb-3" style="width: 400px;">
+            <div class="card-body">
+                <div class="text-center" style="padding-bottom: 20px;"><h3 class="card-title">IndeMode</h3></div>
+    
+                <form method="POST">
+                    <label for="" class="form-label">ユーザー名</label>
+                    <input type="text" name="username" class="form-control">
+                    <label for="" class="form-label">パスワード</label>
+                    <input type="password" name="password" class="form-control">
+                    <div style="text-align: right;"><a class="nav-link" href="/signup">新規登録</a></div>
+    
+                    <div style="height: 40px;"></div>
+    
+                    <div class="text-center"><input type="submit" value="ログイン" class="btn btn-primary"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
 </div>
 {% endblock %}
